@@ -2,39 +2,54 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { withNavigationFocus } from 'react-navigation';
-import { trackEvent, trackScreen } from '../../Tracker';
+import {
+  trackEvent,
+  trackScreenWithCD,
+  trackEventWithCDAndMetric
+} from '../../Tracker';
 
-class Home extends React.Component {
+class Events extends React.Component {
   static navigationOptions = {
     title: 'Events'
   };
   componentWillMount() {
     // log on initial mount
-    trackScreen('Events');
+    trackScreenWithCD('Events', { UserId: '1', LoggedIn: 'logged in: YEH' });
   }
   componentWillReceiveProps(nextProps) {
     if (!this.props.isFocused && nextProps.isFocused) {
       // log on repeat visits when screen comes into focus
-      trackScreen('Events');
+      trackScreenWithCD('Events', { UserId: '1', LoggedIn: 'logged in: no' });
     }
   }
   onLogin = () => {
-    trackEvent({
-      event: 'loginSuccess',
-      country: 'Australia'
-    });
-    console.log('loginSuccess');
+    trackEventWithCDAndMetric(
+      'onboarding',
+      'register',
+      'create profile',
+      {},
+      { '1': 1 }
+    );
+  };
+  onNotNow = () => {
+    trackEvent('onboarding', 'register', 'not now');
   };
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Generate a random login event and send to GTM</Text>
+        <Text>Generate a random login event and send to GA</Text>
         <View style={{ margin: 20 }}>
           <Button
             large
             icon={{ name: 'person' }}
-            title="Send Login Success Event"
+            title="Create Profile Event"
             onPress={this.onLogin}
+          />
+          <Button
+            large
+            icon={{ name: 'person' }}
+            title="Not Now Event"
+            onPress={this.onNotNow}
           />
         </View>
       </View>
@@ -42,12 +57,4 @@ class Home extends React.Component {
   }
 }
 
-const styles = {
-  buttonStyle: {
-    padding: 10,
-    backgroundColor: 'blue',
-    width: '100%'
-  }
-};
-
-export default withNavigationFocus(Home);
+export default withNavigationFocus(Events);

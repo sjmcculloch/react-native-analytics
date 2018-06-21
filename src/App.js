@@ -1,56 +1,24 @@
 import React from 'react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import { StatusBar, View } from 'react-native';
-import { openTracker, trackScreen } from './Tracker';
+import { GoogleAnalyticsTracker } from 'react-native-google-analytics-bridge';
 
-import HomeStack from './screens/home/Stack';
-import EventStack from './screens/events/Stack';
-import ShopStack from './screens/shop/Stack';
+import rootReducer from './reducers';
+import RootNavigator from './navigation/RootNavigator';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { createBottomTabNavigator } from 'react-navigation';
-
-openTracker();
-
-const RootNavigator = createBottomTabNavigator(
-  {
-    Home: HomeStack,
-    Events: EventStack,
-    Shop: ShopStack
-  },
-  {
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        if (routeName === 'Home') {
-          iconName = `ios-home${focused ? '' : '-outline'}`;
-        } else if (routeName === 'Events') {
-          iconName = `ios-star${focused ? '' : '-outline'}`;
-        } else if (routeName === 'Shop') {
-          iconName = `ios-card${focused ? '' : '-outline'}`;
-        }
-
-        // You can return any component that you like here! We usually use an
-        // icon component from react-native-vector-icons
-        return <Ionicons name={iconName} size={25} color={tintColor} />;
-      }
-    }),
-    tabBarOptions: {
-      activeTintColor: '#f6b333',
-      inactiveTintColor: '#b1afae',
-      labelStyle: {
-        fontSize: 12
-      },
-      style: {
-        backgroundColor: '#3D3834'
-      }
-    }
-  }
-);
+export const tracker = new GoogleAnalyticsTracker('UA-102295230-2', {
+  UserId: 1,
+  LoggedIn: 2
+});
+console.log(tracker);
+const store = createStore(rootReducer);
 
 export default (App = () => (
-  <View style={{ flex: 1 }}>
-    <StatusBar barStyle="dark-content" />
-    <RootNavigator />
-  </View>
+  <Provider store={store}>
+    <View style={{ flex: 1 }}>
+      <StatusBar barStyle="dark-content" />
+      <RootNavigator />
+    </View>
+  </Provider>
 ));

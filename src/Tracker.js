@@ -1,16 +1,31 @@
 import { GoogleTagManager } from 'react-native-google-analytics-bridge';
 
-export const openTracker = () => {
-  GoogleTagManager.openContainerWithId('GTM-5MHQZ87');
-};
-
-export const trackEvent = eventObject => {
-  GoogleTagManager.pushDataLayerEvent(eventObject);
-};
+import { tracker } from './App';
 
 export const trackScreen = screenName => {
-  trackEvent({
-    event: 'screenLoad',
-    screenName: screenName
-  });
+  tracker.trackScreenView('Tracker = ' + screenName);
+};
+
+export const trackScreenWithCD = (screenName, dimensions) => {
+  tracker.trackScreenViewWithCustomDimensionValues(screenName, dimensions);
+};
+
+export const trackEvent = (category, action, label) => {
+  tracker.trackEvent(category, action, { label: label });
+};
+
+export const trackEventWithCDAndMetric = (
+  category,
+  action,
+  label,
+  dimensions,
+  metric
+) => {
+  tracker.trackEventWithCustomDimensionAndMetricValues(
+    category,
+    action,
+    { label: label },
+    dimensions,
+    metric
+  );
 };

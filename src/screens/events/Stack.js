@@ -1,4 +1,5 @@
 import { createStackNavigator } from 'react-navigation';
+import NavigationOptions from '../../navigation/NavigationOptions';
 import Root from './Root';
 
 const EventStack = createStackNavigator(
@@ -7,15 +8,7 @@ const EventStack = createStackNavigator(
   },
   {
     initialRouteName: 'EventHome',
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#4E9766'
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold'
-      }
-    }
+    navigationOptions: NavigationOptions
   }
 );
 

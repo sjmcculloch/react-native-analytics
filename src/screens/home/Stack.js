@@ -1,4 +1,5 @@
 import { createStackNavigator } from 'react-navigation';
+import NavigationOptions from '../../navigation/NavigationOptions';
 import Root from './Root';
 
 const HomeStack = createStackNavigator(
@@ -7,15 +8,7 @@ const HomeStack = createStackNavigator(
   },
   {
     initialRouteName: 'Home',
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#4E9766'
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold'
-      }
-    }
+    navigationOptions: NavigationOptions
   }
 );
 

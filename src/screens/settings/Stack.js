@@ -1,20 +1,15 @@
 import { createStackNavigator } from 'react-navigation';
 import NavigationOptions from '../../navigation/NavigationOptions';
-
 import Root from './Root';
-import Purchase from './Purchase';
 
-const ShopStack = createStackNavigator(
+const SettingStack = createStackNavigator(
   {
-    ShopHome: {
-      screen: Root
-    },
-    ShopPurchase: Purchase
+    SettingHome: Root
   },
   {
-    initialRouteName: 'ShopHome',
+    initialRouteName: 'SettingHome',
     navigationOptions: NavigationOptions
   }
 );
 
-export default ShopStack;
+export default SettingStack;
